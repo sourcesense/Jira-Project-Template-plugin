@@ -1,0 +1,165 @@
+|= Name | Jira project template |
+|= Version | 0.1 |
+|= Product Versions | Atlassian JIRA 3.13 |
+|= Author(s) | Roberto Manicardi (Sourcesense) |
+|= Price | Free |
+|= License | Apache 2.0 |
+|= IssueTracking | [[http://opensource.sourcesense.com/jira/browse/JPT]] |
+|= Download JAR | [[https://dev.sourcesense.com/svn/atlassian/jira/jira-project-template/release/project-template-0.1.jar]] |
+|= Download Source | [[https://dev.sourcesense.com/svn/atlassian/jira/jira-project-template/trunk/]] |
+
+
+== Versions ==
+
+|= Version number |= Notes |
+| 0.1 | First version |
+
+
+== Description/Features ==
+
+Jira lacks of a system to create new project using templates. With this plugin users can define project templates (i.e. the common part of configuration between projects) and create new projects using these templates. This plugin offers a solution for the issue [[Allow support for project schemes or templates (JRA-7020)|http://jira.atlassian.com/browse/JRA-7020]]
+A template is simply a Jira issue in a special project in which the custom fields are the configuration items of the project (Permission scheme, workflow scheme,...).
+Jira admins can select which configuration items will be part of the template (eg. all except the name and the project key) and let the users insert the remaining configuration items on project creation.
+
+
+== How it works ==
+
+A Jira project is a collection of **configuration items**. Known configuration items are the following:
+
+|= Configuration Item |= Required |
+| Project Key | yes |
+| Project Name | yes |
+| Project Leader | yes |
+| Notification Scheme | no |
+| Permission Scheme | no |
+| Issue Security Scheme | no |
+| Issue Type Scheme | no |
+| Field Layout Scheme | no |
+| Issue Type Screen Scheme | no |
+| Workflow Scheme | no |
+| Project Category | no |
+| Project Roles (-) | no |
+
+(-) not implemented
+
+Some of this configuration items can be common for more project. An project template is the collection of the common configuration item values that can be used to build new projects.
+
+Project templates are defined as issues in special Jira projects. Issues will be the template 'instances' while the special project will be the template 'class'.
+For example, a project template class can set all the configuration items except the Project Name, Project Key and the Project Leader. For each template class a new special project will be defined. Project template instances, i.e. which Notification Scheme, Permission Scheme,... will be part of the template, are the issues in the special project.
+
+
+
+
+== Installation ==
+
+Copy the file project-template-0.1.jar in the Jira WEB-INF/lib directory and restart Jira. Verify that the pluing have been successfully installed (a new plugin named "Project Template Manager" should appear in the plugin list).
+
+
+
+== Configuration ==
+
+As an example, let's configure a new project template class that sets all the configuration items except the project name, project key and the project leader.
+
+
+
+=== Special Project ===
+
+First of all we need a project for the project template issues. Create a new project called "Simple Project Template", with key SPT.
+
+=== Issue type ===
+
+Create a new issue type for the project template class (eg "Simple template").
+
+=== Custom fields ===
+
+The configuration items will be set as custom field in the Jira instance. You have to create a new custom field for each configuration item that you'll need to set in the template. Below you'll find the table of the custom field name and type you have to use.
+
+|= Field name |= Field type |= Required |
+| Project Key | text field | yes |
+| Project Name | text field | yes |
+| Leader | User Picker | yes |
+| Notification Scheme ID | text field | no |
+| Permission Scheme ID | text field | no |
+| Issue Security Scheme ID | text field | no |
+| Issue Type Scheme ID | text field | no |
+| Field Layout Scheme ID | text field | no |
+| Issue Type Screen Scheme ID | text field | no |
+| Workflow Scheme ID | text field | no |
+| Project Category ID | text field | no |
+
+(!) The plugin recognise the custom field by the name so please be use exactly the name in the table.
+(i) Only the field marked as 'required' are strictly mandatory. If, for example, the project template doesn't need the Project category nor it has to be specified in the project created on the template, you don't need to add the custom field "Project Category ID"
+
+=== Screen ===
+
+You'll need two screens, one for the configuration items of the template and one for the remaining configuration items (name, key and leader).
+
+The first, called "Simple project template fields screen" is associated with the following fields:
+
+* Summary (will be the issue name, a.k.a. the project template name)
+* Notification Scheme ID
+* Permission Scheme ID
+* Issue Security Scheme ID
+* Field Layout Scheme ID
+* Issue Tyep Screen Scheme ID
+* Workflow Scheme ID
+* Project Category ID
+
+The second, called "Non simple project template fields screen" is associated with the following fields:
+
+* Project Name
+* Project Key
+* Leader
+
+
+=== Screen Scheme ===
+
+Create a new Screen scheme (eg. "Projet template screen scheme") and associate all the operations to the template screen (eg. the "Simple project template fields screen").
+
+=== Issue Type Screen Scheme ===
+
+Create a new Issue type screen scheme (eg. "Project Tempate Issue type Screen scheme") and the issue type "Simple template" to the screen scheme "Projet template screen scheme".
+
+=== Workflow ===
+
+Create a new workflow (eg. "Create project workflow" ), set one step "Open" (= status Open)&nbsp; and create a new transition from Open to Open (eg. "Create project from template"). As transition view select the screen "Non simple project template fields screen".
+Add a new "Create Project By Template" postfunction in this transition.
+
+=== Workflow Scheme ===
+
+Create a new workflow scheme (eg. "Create project workflow scheme") and associate to the issue type "Simple template" to the new workflow.
+
+
+=== Complete Project configuration ===
+
+In the project "Simple Project Template" set the previously created
+* Workflow scheme ("Create project workflow scheme")
+* Issuetype screen scheme ("Project Tempate Issue type Screen scheme")
+
+Create a new issue type scheme and select only the issue type "Simple template".
+Set a permission scheme/project role to limit the access to the project only to users that will have the right to create new projects.
+
+
+
+== Usage ==
+
+=== Create a project template ===
+
+To create a new project template simply create a new issue in the project "Simple Project Template" using the issue type "Simple template".
+
+Set a template name in the "Summary" field and set the scheme IDs in the new custom fields.
+
+To get a scheme ID simply browse the scheme in view mode and read the value the schemeId field in the URL. For example, to get the scheme ID of a Notification scheme, browse Administration -> Notification Schemes and click on a Notification scheme (column name).
+The URL of the page will be .../secure/admin/EditNotifications\!default.jspa?schemeId=10020. In this case the scheme ID will be 10020.
+
+=== Create a new project using a template ===
+
+To create a new project simply open a project template issue and click on the "Create project from template" and insert the variable configuration items (name, key, leader).
+
+
+== Next steps ==
+
+* Add support for Project roles
+* Create new Custom Field to graphically select the scheme code.
+Powered by a free Atlassian Confluence Open Source Project License granted to Sourcesense. Evaluate Confluence today.
+Powered by Atlassian Confluence 3.0.2, the Enterprise Wiki. Bug/feature request – Atlassian news – Contact administrators
