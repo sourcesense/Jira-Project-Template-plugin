@@ -1,0 +1,26 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="Project Template Manager">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+       
+        <vendor name="Sourcesense" url="http://www.sourcesense.com"/>
+    </plugin-info>
+    
+  
+    <workflow-function key="create-project-by-template-function" name="Create Project By Template" 
+    class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+    <description>Creates a new project using the settings found in the issue.</description>
+
+    <function-class>com.sourcesence.jira.plugin.function.CreateProjectByTemplate</function-class>
+
+    <orderable>true</orderable>
+    <unique>false</unique>
+    <deletable>true</deletable>
+
+    <resource type="velocity" name="view" 
+    location="templates/createprojectbytemplate.vm"/>
+</workflow-function>
+    
+    
+    
+</atlassian-plugin>

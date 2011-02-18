@@ -1,0 +1,16 @@
+
+<html>
+<head>
+    <title><webwork:text name="'common.concepts.projects'"/></title>
+</head>
+<body>
+<page:applyDecorator name="jirapanel">
+    <page:param name="title"><webwork:text name="'admin.projects.administration'"/></page:param>
+    <page:param name="width">100%</page:param>
+    <page:param name="helpURL">project_management</page:param>
+
+   
+</page:applyDecorator>
+
+</body>
+</html>
