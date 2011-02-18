@@ -4,9 +4,9 @@
 |= Author(s) | Roberto Manicardi (Sourcesense) |
 |= Price | Free |
 |= License | Apache 2.0 |
-|= IssueTracking | [[http://opensource.sourcesense.com/jira/browse/JPT]] |
-|= Download JAR | [[https://dev.sourcesense.com/svn/atlassian/jira/jira-project-template/release/project-template-0.1.jar]] |
-|= Download Source | [[https://dev.sourcesense.com/svn/atlassian/jira/jira-project-template/trunk/]] |
+|= IssueTracking | [[https://github.com/sourcesense/Jira-Project-Template-plugin/issues]] |
+|= Download JAR | [[http://repo2.maven.org/maven2/com/sourcesense/jira/project-template/1.0.0/project-template-1.0.0.jar]] |
+|= Download Source | [[https://github.com/sourcesense/Jira-Project-Template-plugin]] |
 
 
 == Versions ==
@@ -161,5 +161,3 @@ To create a new project simply open a project template issue and click on the "C
 
 * Add support for Project roles
 * Create new Custom Field to graphically select the scheme code.
-Powered by a free Atlassian Confluence Open Source Project License granted to Sourcesense. Evaluate Confluence today.
-Powered by Atlassian Confluence 3.0.2, the Enterprise Wiki. Bug/feature request – Atlassian news – Contact administrators
